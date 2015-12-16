@@ -1,0 +1,7 @@
+node_modules/
+app/build/*
+*.swp
+**/.DS_Store
+.settings
+.vscode/*
+!.vscode/tasks.json
