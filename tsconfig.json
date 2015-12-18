@@ -1,7 +1,12 @@
 {
     "compilerOptions": {
-        "target": "ES6",
+        "target": "ES5",
         "module": "commonjs",
-        "sourceMap": true
-    }
+        "sourceMap": true,
+        "outDir": "./app/build/"
+    },
+    "exclude": [
+        "node_modules"
+    ]
+    
 }

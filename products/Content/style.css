@@ -1,0 +1,86 @@
+body {
+    padding-top: 50px;
+    height: 100%;
+}
+
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px
+}
+
+footer {
+    position: relative;
+    width: 100%;
+    padding: 0 0 20px;
+    margin-top: 40px;
+    background: #e6e9ed
+}
+
+.dl-horizontal dt {
+    white-space: normal
+}
+
+input,select,textarea {
+    max-width: 280px
+}
+
+body>.container {
+    margin-top: 20px;
+    margin-bottom: 20px
+}
+
+
+.social-buttons {
+    margin: 10px 0
+}
+
+.glyphicon {
+    margin: 0 .5em
+}
+
+.rooms-container {
+    margin: 1em 0
+}
+
+.filename-container {
+    font-size: 1em
+}
+
+#filename {
+    font-size: 1.5em
+}
+
+.language-container {
+    font-size: .8em
+}
+
+.build-result {
+    text-decoration: underline
+}
+
+.golden-layout-container {
+    min-height: 60%;
+    position:relative;
+}
+
+#golden-layout{
+    /* width: 100%; */
+    left: 10px;
+    right: 10px;
+    height: 100%;
+    position: absolute;
+    display: block;
+    -webkit-box-sizing: border-box;
+    -khtml-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+html {
+    height: 100%;
+}
+
+pre.code {
+    height: 100%;
+}

@@ -1,0 +1,1219 @@
+body {
+    background: white;
+}
+
+body * {
+    color: black;
+}
+
+.keyword {
+    color: #0000ff;
+}
+
+.comment {
+    color: #008000;
+}
+
+.identifier {
+    color: #000000;
+}
+
+.string {
+    color: #a31515;
+}
+
+.number {
+    color: #000000;
+}
+
+.xml_doc_comment {
+    color: #008000;
+}
+
+.xml_doc_tag {
+    color: #808080;
+}
+
+.xml_doc_attribute {
+    color: #808080;
+}
+
+.xml_cdata_section {
+    color: #808080;
+}
+
+.xml_comment {
+    color: #008000;
+}
+
+.string_cs_at_verbatim_ {
+    color: #a31515;
+}
+
+.operator {
+    color: #000000;
+}
+
+.preprocessor_keyword {
+    color: #0000ff;
+}
+
+.excluded_code {
+    color: #808080;
+}
+
+.user_types {
+    color: #2b91af;
+}
+
+.user_types_value_types_ {
+    color: #2b91af;
+}
+
+.user_types_interfaces_ {
+    color: #2b91af;
+}
+
+.user_types_delegates_ {
+    color: #2b91af;
+}
+
+.user_types_enums_ {
+    color: #2b91af;
+}
+
+.user_types_type_parameters_ {
+    color: #2b91af;
+}
+
+.stale_code {
+    color: #800080;
+}
+
+.memory_data {
+    color: #000000;
+}
+
+.memory_changed {
+    color: #ff0000;
+}
+
+.memory_address {
+    color: #808080;
+}
+
+.memory_unreadable {
+    color: #000000;
+    background-color: #eeefe6;
+}
+
+.register_data_changed {
+    color: #ff0000;
+}
+
+.register_data {
+    color: #000000;
+}
+
+.register_nat {
+    color: #c0c0c0;
+}
+
+.text {
+    color: #000000;
+}
+
+.sql_stored_procedure {
+    color: #800000;
+}
+
+.sql_system_table {
+    color: #008000;
+}
+
+.sql_system_function {
+    color: #ff00ff;
+}
+
+.sql_operator {
+    color: #808080;
+}
+
+.sql_文字列 {
+    color: #ff0000;
+}
+
+.sqlcmd_command {
+    color: #000000;
+    background-color: #c0c0c0;
+}
+
+.error {
+    color: #ff0000;
+}
+
+.xaml_text {
+    color: #000000;
+}
+
+.xaml_keyword {
+    color: #0000ff;
+}
+
+.xaml_delimiter {
+    color: #0000ff;
+}
+
+.xaml_comment {
+    color: #008000;
+}
+
+.xaml_name {
+    color: #a31515;
+}
+
+.xaml_attribute {
+    color: #ff0000;
+}
+
+.xaml_cdata_section {
+    color: #808080;
+}
+
+.xaml_processing_instruction {
+    color: #808080;
+}
+
+.xaml_attribute_value {
+    color: #0000ff;
+}
+
+.xaml_attribute_quotes {
+    color: #000000;
+}
+
+.xaml_markup_extension_class {
+    color: #a31515;
+}
+
+.xaml_markup_extension_parameter_name {
+    color: #ff0000;
+}
+
+.xaml_markup_extension_parameter_value {
+    color: #0000ff;
+}
+
+.xml_text {
+    color: #000000;
+}
+
+.xml_keyword {
+    color: #0000ff;
+}
+
+.xml_delimiter {
+    color: #0000ff;
+}
+
+.xml_name {
+    color: #a31515;
+}
+
+.xml_attribute {
+    color: #ff0000;
+}
+
+.xml_processing_instruction {
+    color: #808080;
+}
+
+.xml_attribute_value {
+    color: #0000ff;
+}
+
+.xml_attribute_quotes {
+    color: #000000;
+}
+
+.xslt_keyword {
+    color: #2b91af;
+}
+
+.cppmacrosemantictokenformat {
+    color: #6f008a;
+}
+
+.cppenumsemantictokenformat {
+    color: #2f4f4f;
+}
+
+.cppglobalvariablesemantictokenformat {
+    color: #000000;
+}
+
+.cpplocalvariablesemantictokenformat {
+    color: #000000;
+}
+
+.cppparametersemantictokenformat {
+    color: #808080;
+}
+
+.cpptypesemantictokenformat {
+    color: #2b91af;
+}
+
+.cppreftypesemantictokenformat {
+    color: #2b91af;
+}
+
+.cppvaluetypesemantictokenformat {
+    color: #2b91af;
+}
+
+.cppfunctionsemantictokenformat {
+    color: #000000;
+}
+
+.cppmemberfunctionsemantictokenformat {
+    color: #000000;
+}
+
+.cppmemberfieldsemantictokenformat {
+    color: #000000;
+}
+
+.cppstaticmemberfunctionsemantictokenformat {
+    color: #000000;
+}
+
+.cppstaticmemberfieldsemantictokenformat {
+    color: #000000;
+}
+
+.cpppropertysemantictokenformat {
+    color: #000000;
+}
+
+.cppeventsemantictokenformat {
+    color: #000000;
+}
+
+.cppclasstemplatesemantictokenformat {
+    color: #2b91af;
+}
+
+.cppgenerictypesemantictokenformat {
+    color: #2b91af;
+}
+
+.cppfunctiontemplatesemantictokenformat {
+    color: #000000;
+}
+
+.cppnamespacesemantictokenformat {
+    color: #000000;
+}
+
+.cpplabelsemantictokenformat {
+    color: #000000;
+}
+
+.c_cpp_user_keywords {
+    color: #0000ff;
+}
+
+.css_comment {
+    color: #006400;
+}
+
+.css_keyword {
+    color: #0000ff;
+}
+
+.css_selector {
+    color: #800000;
+}
+
+.css_property_name {
+    color: #ff0000;
+}
+
+.css_property_value {
+    color: #0000ff;
+}
+
+.css_string_value {
+    color: #0000ff;
+}
+
+.htmlservercodeblockcontent {
+    color: #000000;
+    background-color: #f5f5ff;
+}
+
+.data_tools_diff_remove_line {
+    color: #000000;
+    background-color: #ffff87;
+}
+
+.data_tools_diff_add_line {
+    color: #000000;
+    background-color: #ffa8a8;
+}
+
+.data_tools_diff_remove_word {
+    color: #000000;
+    background-color: #fad70a;
+}
+
+.data_tools_diff_add_word {
+    color: #000000;
+    background-color: #ff8080;
+}
+
+.knockout_region {
+    color: #000000;
+    background-color: #e1e1e1;
+}
+
+.coffeescriptrawjavascriptformatdefinition {
+    color: #556b2f;
+}
+
+.coffeescriptheregexseparatorformatdefinition {
+    color: #ff8c00;
+}
+
+.htmlclienttemplateseparatorformatdefinition {
+    color: #000000;
+    font-weight: bold;
+}
+
+.htmlclienttemplatetagformatdefinition {
+    color: #006400;
+    font-weight: bold;
+}
+
+.htmlclienttemplatevalueformatdefinition {
+    color: #800080;
+}
+
+.lesscssvariabledeclarationclassificationformat {
+    color: #800080;
+}
+
+.lesscssvariablereferenceformat {
+    color: #800080;
+}
+
+.lesscssnamespacereferenceformat {
+    color: #800000;
+}
+
+.lesscssmixindeclarationformat {
+    color: #800000;
+}
+
+.lesscssmixinreferenceformat {
+    color: #800000;
+}
+
+.lesscsskeywordformat {
+    color: #0000ff;
+}
+
+.powershell_3_command_name {
+    color: #ff8c00;
+}
+
+.powershell_3_generic {
+    color: #6464b9;
+}
+
+.powershell_3_type_name {
+    color: #f4a721;
+}
+
+.powershell_3_attribute {
+    color: #92caf4;
+}
+
+.powershell_3_variable {
+    color: #bd63c5;
+}
+
+.powershell_3_parameter {
+    color: #008080;
+}
+
+.codereview_selectedcomment_anchorpoint {
+    color: #d6a84c;
+    background-color: #ffed99;
+}
+
+.codereview_unselectedcomment_anchorpoint {
+    color: #cc9933;
+    background-color: #ffed99;
+}
+
+.codeanalysiswarningselection {
+    color: #ffff3a;
+    background-color: #ffff3a;
+}
+
+.codeanalysiskeyeventselection {
+    color: #ffff80;
+    background-color: #ffff80;
+}
+
+.codeanalysislinetraceselection {
+    color: #d2d2d2;
+    background-color: #d2d2d2;
+}
+
+.codeanalysiscurrentstatementselection {
+    color: #ff0000;
+    background-color: #ffff00;
+}
+
+.peekformatdefinition_eoimark {
+    color: #000000;
+    background-color: #3399ff;
+}
+
+.peekformatdefinition_peekmark {
+    color: #000000;
+    background-color: #3399ff;
+}
+
+.markerformatdefinition_bookmarkinscrollbar {
+    color: #000000;
+    background-color: #404040;
+}
+
+.markerformatdefinition_breakpointinscrollbar {
+    color: #000000;
+    background-color: #903840;
+}
+
+.markerformatdefinition_highlightedreference {
+    color: #000000;
+    background-color: #dbe0cc;
+}
+
+.markerformatdefinition_findhighlight {
+    color: #000000;
+    background-color: #f4a721;
+}
+
+.markerformatdefinition_scopehighlight {
+    color: #e7ebf7;
+    background-color: #e7ebf7;
+}
+
+.mergeeditor_acceptedline {
+    color: #000000;
+    background-color: #dde7c8;
+}
+
+.mergeeditor_acceptedsimilarline {
+    color: #000000;
+    background-color: #f5f8f0;
+}
+
+.mergeeditor_conflictline {
+    color: #000000;
+    background-color: #fcddc4;
+}
+
+.mergeeditor_notacceptedline {
+    color: #000000;
+    background-color: #f3f3f3;
+}
+
+.mergeeditor_deletednegativespace {
+    color: #000000;
+    background-color: #006400;
+}
+
+.mergeeditor_conflictnegativespace {
+    color: #000000;
+    background-color: #e9967a;
+}
+
+.mergeeditor_negativespace {
+    color: #000000;
+    background-color: #a9a9a9;
+}
+
+.mergeeditor_marginindicator {
+    color: #000000;
+    background-color: #a9a9a9;
+}
+
+.mergeeditor_conflictmarginindicator {
+    color: #000000;
+    background-color: #e9967a;
+}
+
+.mergeeditor_selectionbox {
+    color: #000000;
+    background-color: #000000;
+}
+
+.regularexpressionclassificationformat {
+    color: #800000;
+}
+
+.html_attribute {
+    color: #ff0000;
+}
+
+.html_attribute_name {
+    color: #ff0000;
+}
+
+.html_attribute_value {
+    color: #0000ff;
+}
+
+.html_comment {
+    color: #006400;
+}
+
+.html_element_name {
+    color: #800000;
+}
+
+.html_entity {
+    color: #ff0000;
+}
+
+.html_operator {
+    color: #0000ff;
+}
+
+.html_server-side_script {
+    color: #000000;
+    background-color: #ffff00;
+}
+
+.html_tag_delimiter {
+    color: #0000ff;
+}
+
+.vbscript_keyword {
+    color: #0000ff;
+}
+
+.vbscript_comment {
+    color: #006400;
+}
+
+.vbscript_operator {
+    color: #000000;
+}
+
+.vbscript_number {
+    color: #000000;
+}
+
+.vbscript_string {
+    color: #800000;
+}
+
+.vbscript_identifier {
+    color: #000000;
+}
+
+.vbscript_function_block_start {
+    color: #000000;
+}
+
+.filelineclassificationformat {
+    color: #800000;
+}
+
+.instructionlineclassificationformat {
+    color: #555555;
+}
+
+.sourcelineclassificationformat {
+    color: #1e1e1e;
+}
+
+.symbollineclassificationformat {
+    color: #0000ff;
+}
+
+.xmldocattributeclassificationformat {
+    color: #808080;
+}
+
+.xmldoccommentclassificationformat {
+    color: #008000;
+}
+
+.xmldoctagclassificationformat {
+    color: #808080;
+}
+
+.xmldelimiterclassificationformat {
+    color: #6464b9;
+}
+
+.xmlcommentclassificationformat {
+    color: #629755;
+}
+
+.xmlnameclassificationformat {
+    color: #844646;
+}
+
+.xmlattributenameclassificationformat {
+    color: #b96464;
+}
+
+.xmlcdatasectionclassificationformat {
+    color: #c0c0c0;
+}
+
+.xmlprocessinginstructionclassificationformat {
+    color: #c0c0c0;
+}
+
+.xmlattributevalueclassificationformat {
+    color: #6464b9;
+}
+
+.xmlattributequotesclassificationformat {
+    color: #555555;
+}
+
+.xmltextclassificationformat {
+    color: #555555;
+}
+
+.xmlembeddedexpressionclassificationformat {
+    color: #555555;
+    background-color: #fffebf;
+}
+
+.vbusertypeclassificationformat {
+    color: #2b91af;
+}
+
+.vbexcludedcodeclassificationformat {
+    color: #808080;
+}
+
+.peek_background {
+    color: #000000;
+    background-color: #fffbd7;
+}
+
+.peek_background_unfocused {
+    color: #000000;
+    background-color: #f0f0f4;
+}
+
+.peek_history_selected {
+    color: #000000;
+    background-color: #007acc;
+}
+
+.peek_history_hovered {
+    color: #000000;
+    background-color: #1c97ea;
+}
+
+.peek_focused_border {
+    color: #293955;
+}
+
+.peek_label_text {
+    color: #000000;
+}
+
+.literal {
+    color: #000000;
+}
+
+.symboldefinitionclassificationformat {
+    color: #2b91af;
+}
+
+.symbolreferenceclassificationformat {
+    color: #008800;
+    font-weight: bold;
+}
+
+.bracecompletionclosingbrace {
+    color: #000000;
+    background-color: #add8e6;
+}
+
+.currentlineactiveformat {
+    color: #eaeaf2;
+}
+
+.currentlineinactiveformat {
+    color: #eeeeee;
+}
+
+.deltadiff_remove_line {
+    color: #000000;
+    background-color: #ffcccc;
+}
+
+.deltadiff_add_line {
+    color: #000000;
+    background-color: #ebf1dd;
+}
+
+.deltadiff_remove_word {
+    color: #ff6666;
+    background-color: #ff9999;
+}
+
+.deltadiff_add_word {
+    color: #76923c;
+    background-color: #d7e3bc;
+}
+
+.deltadiff_overview_color {
+    color: #79797a;
+    background-color: #e6e7e8;
+}
+
+.outlining_collapsehintadornment {
+    color: #d7dde8;
+    background-color: #f6f7fa;
+}
+
+.outlining_verticalrule {
+    color: #a5a5a5;
+}
+
+.outlining_square {
+    color: #555555;
+    background-color: #e2e2e2;
+}
+
+.overviewmargincollapsedregion {
+    color: #000000;
+    background-color: #9ba5b9;
+}
+
+.overviewmarginbackground {
+    color: #000000;
+    background-color: #f0f0f0;
+}
+
+.overviewmarginvisible {
+    color: #000000;
+}
+
+.overviewmargincaret {
+    color: #0000cd;
+}
+
+.syntax_error {
+    color: #ff0000;
+}
+
+.compiler_error {
+    color: #0000ff;
+}
+
+.other_error {
+    color: #951795;
+}
+
+.compiler_warning {
+    color: #008000;
+}
+
+.urlformat {
+    color: #0000ff;
+}
+
+.line_number {
+    color: #2b91af;
+}
+
+.track_changes_before_save {
+    color: #000000;
+    background-color: #ffd800;
+}
+
+.track_changes_after_save {
+    color: #000000;
+    background-color: #15c23c;
+}
+
+.track_reverted_changes {
+    color: #000000;
+    background-color: #f7c93c;
+}
+
+.visible_whitespace {
+    color: #2b91af;
+}
+
+.selected_text {
+    color: #000000;
+    background-color: #3399ff;
+}
+
+.inactive_selected_text {
+    color: #000000;
+    background-color: #bfcddb;
+}
+
+.plain_text {
+    color: #000000;
+}
+
+.indicator_margin {
+    color: #000000;
+    background-color: #e6e7e8;
+}
+
+.read-only_region {
+    color: #000000;
+    background-color: #eeefe6;
+}
+
+.task_list_shortcut {
+    color: #000000;
+    background-color: #0000ff;
+}
+
+.bookmark {
+    color: #000000;
+    background-color: #bfd2f9;
+}
+
+.collapsible_text__collapsed_ {
+    color: #808080;
+}
+
+.collapsible_text__expanded_ {
+    color: #808080;
+}
+
+.current_list_location {
+    color: #ffffff;
+    background-color: #3399ff;
+}
+
+.code_snippet_field {
+    color: #000000;
+    background-color: #ffe188;
+}
+
+.code_snippet_field__selected_ {
+    color: #000000;
+    background-color: #ffe188;
+}
+
+.smart_tag {
+    color: #0000ff;
+}
+
+.bookmark__disabled_ {
+    color: #000000;
+    background-color: #bfd2f9;
+}
+
+.brace_matching__rectangle_ {
+    color: #000000;
+    background-color: #dbe0cc;
+}
+
+.definition_window_background {
+    color: #000000;
+    background-color: #eeefe6;
+}
+
+.definition_window_current_match {
+    color: #000000;
+}
+
+.warning_lines_path {
+    color: #0000a5;
+    background-color: #eeefe6;
+}
+
+.brace_matching__highlight_ {
+    color: #000000;
+    font-weight: bold;
+}
+
+.refactoring_background {
+    color: #000000;
+    background-color: #eeefe6;
+}
+
+.code_snippet_dependent_field {
+    color: #000000;
+}
+
+.refactoring_current_field {
+    color: #000000;
+    background-color: #b4e4b4;
+}
+
+.refactoring_dependent_field {
+    color: #000000;
+}
+
+.tracepoint_-_mapped__enabled_ {
+    color: #800000;
+}
+
+.tracepoint__disabled_ {
+    color: #800000;
+}
+
+.sampling_hot_line_3 {
+    color: #000000;
+    background-color: #ffecb5;
+}
+
+.tracepoint_-_mapped__error_ {
+    color: #800000;
+}
+
+.sampling_hot_line_5 {
+    color: #000000;
+    background-color: #ff6e6e;
+}
+
+.breakpoint_-_advanced__disabled_ {
+    color: #800000;
+}
+
+.breakpoint_-_advanced__enabled_ {
+    color: #ffffff;
+    background-color: #963a46;
+}
+
+.tracepoint__error_ {
+    color: #800000;
+}
+
+.tracepoint_-_mapped__warning_ {
+    color: #800000;
+}
+
+.tracepoint_-_advanced__disabled_ {
+    color: #800000;
+}
+
+.tracepoint_-_advanced__warning_ {
+    color: #800000;
+}
+
+.tracepoint_-_mapped__disabled_ {
+    color: #800000;
+}
+
+.tracepoint__enabled_ {
+    color: #800000;
+}
+
+.breakpoint_-_advanced__warning_ {
+    color: #ffffff;
+    background-color: #963a46;
+}
+
+.visual_basic_read_only_marker {
+    color: #000000;
+    background-color: #eeefe6;
+}
+
+.breakpoint_-_mapped__warning_ {
+    color: #ffffff;
+    background-color: #963a46;
+}
+
+.breakpoint_-_mapped__disabled_ {
+    color: #800000;
+}
+
+.breakpoint_-_mapped__error_ {
+    color: #ffdba3;
+    background-color: #963a46;
+}
+
+.breakpoint_-_advanced__error_ {
+    color: #ffdba3;
+    background-color: #963a46;
+}
+
+.current_statement {
+    color: #000000;
+    background-color: #ffee62;
+}
+
+.executing_thread_ip {
+    color: #000000;
+    background-color: #ffee62;
+}
+
+.sampling_hot_line_4 {
+    color: #000000;
+    background-color: #c0a776;
+}
+
+.current_statement__new_context_ {
+    color: #c0c0c0;
+}
+
+.breakpoint__disabled_ {
+    color: #800000;
+}
+
+.sampling_hot_line_2 {
+    color: #000000;
+    background-color: #fff0d0;
+}
+
+.breakpoint__error_ {
+    color: #ffdba3;
+    background-color: #963a46;
+}
+
+.tracepoint_-_advanced__error_ {
+    color: #800000;
+}
+
+.breakpoint__warning_ {
+    color: #ffffff;
+    background-color: #963a46;
+}
+
+.sampling_hot_line_1 {
+    color: #000000;
+    background-color: #dee1e7;
+}
+
+.coverage_touched_area {
+    color: #000000;
+    background-color: #e0edfd;
+}
+
+.coverage_not_touched_area {
+    color: #000000;
+    background-color: #e6b0a5;
+}
+
+.breakpoint_-_selected {
+    color: #0000ff;
+}
+
+.coverage_partially_touched_area {
+    color: #000000;
+    background-color: #ffefce;
+}
+
+.sql_dml_marker {
+    color: #0000ff;
+}
+
+.executing_threads_ips {
+    color: #c0c0c0;
+}
+
+.breakpoint__enabled_ {
+    color: #ffffff;
+    background-color: #963a46;
+}
+
+.call_return {
+    color: #000000;
+    background-color: #b4e4b4;
+}
+
+.call_return__new_context_ {
+    color: #000000;
+    background-color: #b4e4b4;
+}
+
+.call_return__historical_mode_ {
+    color: #000000;
+    background-color: #fecbac;
+}
+
+.current_statement__historical_mode_ {
+    color: #000000;
+    background-color: #fecbac;
+}
+
+.error_message {
+    color: #ff0000;
+    background-color: #ff0000;
+}
+
+.tracepoint_-_advanced__enabled_ {
+    color: #800000;
+}
+
+.breakpoint_-_mapped__enabled_ {
+    color: #ffffff;
+    background-color: #963a46;
+}
+
+.tracepoint__warning_ {
+    color: #800000;
+}
+
+#broadcast-status {
+    color: blue;
+}
+
+.online {
+    color: red !important;
+}
+
+footer {
+    background: #e6e9ed;
+}
+
+#code {
+    counter-reset: line_no;
+    list-style: none;
+    margin: 0;
+}
+
+    #code li {
+        white-space: nowrap;
+    }
+
+        #code li:before {
+            counter-increment: line_no;
+            content: counter(line_no);
+            text-align: right;
+            width: 3em;
+            display: inline-block;
+            padding-right: 8px;
+            border-right: 3px solid lightgray;
+            margin-right: 8px;
+        }
+
+        #code li.modified:before {
+            border-right: 3px solid #15c23c;
+        }
+ 
+.modified-line{
+    border: 1px solid #CCC;
+    position: relative;
+    z-index: 1;
+}
+.modified-line:before {
+    border-right: 3px solid #15c23c;
+}

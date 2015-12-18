@@ -26,28 +26,30 @@ export class VSShareClient {
 
 	private _room: Room;
 
-	private _connection: SignalR;
+	private _connection: HubConnection;
 	private _hub: HubProxy;
 
 	private _status: VSShareStatus = VSShareStatus.Disconnected;
 	private _connectionStatus: SignalRConnectionStatus = SignalRConnectionStatus.Disconnected;
-
+	
 	constructor(url: string, hubName: string) {
 		this._url = url;
 		this._hubName = hubName;
+		this._room = new Room();
+		window.addEventListener("resize", () => {this.refleshView(this._room)}, false);
 	}
 
 	startConnection(token: string) {
 		this.disposeConnection();
 
 		const self = this;
-
-		this._connection = $.connection;
+		this._connection = $.hubConnection(this._url);
+		
 		this._connection.stateChanged((status) => {
 			self.changeStatus(<SignalRConnectionStatus>status.newState);
 		});
 
-		this._hub = $.connection.hub.createHubProxy(this._hubName);
+		this._hub = this._connection.createHubProxy(this._hubName);
 		
 		// イベントの登録
 		this._hub.on("UpdateRoomStatus", (item) => {
@@ -55,9 +57,20 @@ export class VSShareClient {
 		});
 		this._hub.on("UpdateSessionInfo", (item) => {
 			self._room.updateSessionInfo(item);
-		})
-		// TODO: 他にもいろいろあります
-
+		});
+		this._hub.on("AppendSession", (item) => {
+			self._room.appendSession(item);
+		});
+		this._hub.on("RemoveSession", (item) => {
+			self._room.removeSession(item);
+		});
+		this._hub.on("UpdateSessionContent", (item) => {
+			self._room.updateSessionContent(item);
+		});
+		this._hub.on("UpdateSessionCursor", (item) => {
+			self._room.updateSessionInfo(item);
+		});
+		
 		this._connection.start().done(() => {
 			// 認証を行う
 			console.log(`Connected to ${self._hubName} on ${self._url}.`);
@@ -79,6 +92,9 @@ export class VSShareClient {
 			if (response && response.success) {
 				// 認証成功
 				self._status = VSShareStatus.Authorized;
+				this._hub.invoke("GetSessionList").done((res) => {
+					
+				});
 			} else {
 				// エラー
 				console.error(`Failed to authorize hub with token: ${token}`);
@@ -100,7 +116,7 @@ export class VSShareClient {
 
 	private disposeConnection() {
 		// 終了処理
-		if (!this._connection) {
+		if (this._connection) {
 			this._connection.stop();
 		}
 	}
@@ -108,6 +124,8 @@ export class VSShareClient {
 	dispose() {
 
 	}
-
-
+	
+	private refleshView(room){
+		room.updateViewSize();
+	}
 }
