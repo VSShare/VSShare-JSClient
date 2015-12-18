@@ -390,6 +390,8 @@ declare module AceAjax {
          * @param lastRow The last row to be removed
         **/
         removeLines(firstRow: number, lastRow: number): string[];
+        
+        removeFullLines(firstRow: number, lastRow: number): string[];
 
         /**
          * Removes the new line between `row` and the row immediately following it. This method also triggers the `'change'` event.
@@ -470,6 +472,8 @@ declare module AceAjax {
         bgTokenizer: BackgroundTokenizer;
 
         doc: Document;
+        
+        $decorations: string[];
 
         on(event: string, fn: (e: any) => any): void;
 

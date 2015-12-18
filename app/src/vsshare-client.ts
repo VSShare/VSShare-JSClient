@@ -60,6 +60,9 @@ export class VSShareClient {
 		});
 		this._hub.on("AppendSession", (item) => {
 			self._room.appendSession(item);
+			this._hub.invoke("GetSessionContent", {id: item.id}).done((res)=>{
+				self._room.updateSessionContent(res);
+			})
 		});
 		this._hub.on("RemoveSession", (item) => {
 			self._room.removeSession(item);
@@ -68,7 +71,7 @@ export class VSShareClient {
 			self._room.updateSessionContent(item);
 		});
 		this._hub.on("UpdateSessionCursor", (item) => {
-			self._room.updateSessionInfo(item);
+			self._room.updateSessionCursor(item);
 		});
 		
 		this._connection.start().done(() => {
@@ -92,8 +95,13 @@ export class VSShareClient {
 			if (response && response.success) {
 				// 認証成功
 				self._status = VSShareStatus.Authorized;
-				this._hub.invoke("GetSessionList").done((res) => {
-					
+				this._hub.invoke("GetSessionList").done((res:any[]) => {
+					res.forEach((value, index, array) => {
+						self._room.appendSession(value);
+						this._hub.invoke("GetSessionContent", {id: value.id}).done((res)=>{
+							self._room.updateSessionContent(res);
+						})
+					});
 				});
 			} else {
 				// エラー

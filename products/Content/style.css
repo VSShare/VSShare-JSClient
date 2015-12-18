@@ -84,3 +84,18 @@ html {
 pre.code {
     height: 100%;
 }
+
+.modified::after{
+    content: " ";
+    background: #6d6;
+    width: 2px;
+    right: 0;
+    height: 100%;
+    background-size: contain;
+    align-content: flex-end;
+    position: absolute;
+}
+
+.modified {
+    position: relative;
+}

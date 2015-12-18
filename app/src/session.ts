@@ -3,6 +3,10 @@
 
 'use strict';
 
+namespace StyleClass {
+	export const Modified = "modified";
+}
+
 export default class Session {
 
 	_id: string;
@@ -11,6 +15,8 @@ export default class Session {
 	_owner: string;
 	_doc: AceAjax.Document;
 	_editor: AceAjax.Editor;
+	_noLine: boolean;
+	_isModified: boolean[] = [];
 	Range = ace.require('./range').Range;
 	
 	constructor(id: string, filename: string, type: ContentType, owner: string) {
@@ -18,12 +24,14 @@ export default class Session {
 		this._filename = filename;
 		this._type = type;
 		this._owner = owner;
+		this._noLine = true;
 	}
 
 	setEditor(element: HTMLElement) {
 		this._editor = ace.edit(<HTMLElement>element.querySelector("#code-" + this._id));
-		this._editor["_emit"] = (name:string, e: MouseEvent) => {};
-		this._editor["$callKeyboardHandlers"] = (hashId:number, keyString: string, keyCode: number, e: KeyboardEvent) => {};
+		// オンオフで切り替える
+		//this._editor["_emit"] = (name:string, e: MouseEvent) => {};
+		//this._editor["$callKeyboardHandlers"] = (hashId:number, keyString: string, keyCode: number, e: KeyboardEvent) => {};
 		this.setEditorMode(this._type);
 		this._editor.setReadOnly(true);
 		this._editor.setOption("maxLines", (element.clientHeight) / this._editor.renderer.layerConfig.lineHeight);
@@ -33,24 +41,63 @@ export default class Session {
 	replaceLines(lines: Line[], row: number, lineLength: number) {
 		var range = new this.Range(row, 0, row + lineLength - 1, this._doc.getLine(row + lineLength - 1).length);
 		var linesStr = [];
+		this._isModified.splice(row, lineLength);
+		var currentRow = row;
 		for(var i=0; i<lines.length; i++){
+			var count = this._doc.$split(lines[i].text).length;
+			for(var j=0; j<count; j++){
+				this._isModified.splice(currentRow + j, 0, lines[i].modified);
+			}
+			currentRow += count;
 			linesStr.push(lines[i].text);
 		}
+		this.updateModifiedLines();
         this._doc.replace(range, linesStr.join("\n"));
     }
 
     insertLines(lines: Line[], row: number) {
 		var textlines = [];
+		var currentRow = row;
 		for(var i=0; i<lines.length; i++) {
-			textlines.push(lines[i].text);
+			var count = this._doc.$split(lines[i].text).length;
+			textlines.concat(this._doc.$split(lines[i].text));
+			for(var j=0; j<count; j++){
+				this._isModified.splice(currentRow + j, 0, lines[i].modified);
+			}
+			currentRow += count;
 		}
+		this.updateModifiedLines();
         this._doc.insertFullLines(row, textlines);
     }
 
     removeLines(startRow: number, lineLength: number) {
-        this._doc.removeLines(startRow, startRow + lineLength - 1);
+		this._isModified.splice(startRow, lineLength);
+		this.updateModifiedLines();
+        this._doc.removeFullLines(startRow, startRow + lineLength - 1);
     }
 
+	removeAllModifiedMarkers(){
+		var txtlen = this._doc.getLength();
+		this._isModified.splice(txtlen, this._isModified.length - txtlen);
+		for(var i=0; i<this._isModified.length; i++) {
+			this._isModified[i] = false;
+		}
+		this.updateModifiedLines();
+	}
+	
+	updateModifiedLines(){
+		
+		for(var i=0; i<this._isModified.length; i++) {
+			if(this._isModified[i]) {
+				if(!this._editor.session.$decorations[i] || !this._editor.session.$decorations[i].match("^"+StyleClass.Modified+"| "+StyleClass.Modified+" |"+StyleClass.Modified+"$")){
+					this._editor.session.addGutterDecoration(i, StyleClass.Modified);
+				}
+			} else {
+				this._editor.session.removeGutterDecoration(i, StyleClass.Modified);
+			}
+		}
+	}
+	
 	dispose() {
 		// 終了処理
 		
@@ -66,17 +113,28 @@ export default class Session {
 				case UpdateType.Append:
 					pos = this._doc.getLength();
 				case UpdateType.Insert:
-					this.insertLines(d.data, pos);
+					if(this._noLine) {
+						this.replaceLines(d.data, 0, 1);
+						this._noLine = false;
+					} else {
+						this.insertLines(d.data, pos);
+					}
 					break;
 				case UpdateType.Delete:
 					this.removeLines(d.pos, d.len);
+					this._noLine = false;
 					break;
 				case UpdateType.Replace:
 					this.replaceLines(d.data, d.pos, d.len);
+					this._noLine = false;
 					break;
 				case UpdateType.ResetAll:
 					this.removeLines(0, this._doc.getLength());
+					this._noLine = true;
+				case UpdateType.RemoveMarker:
+					this.removeAllModifiedMarkers();
 					break;
+					
 			}
 		});
 	}
@@ -114,8 +172,11 @@ export default class Session {
 	}
 	
 	close() {
-		// セッションの削除
+		
 	}
 
+	hasNoLine(): boolean {
+		return this._noLine;
+	}
 }
 

@@ -10,20 +10,20 @@ export default class Room {
 	private _viewCount: number;
 	private _visitorCount: number;
 	private _myLayout: GoldenLayout;
-
+	private _containers: { [id: string]: any; } = {};
 
 	constructor() {
 		this._myLayout = new GoldenLayout({ content: [] }, $('#golden-layout'));
 		this._myLayout.registerComponent('file', function(container, state) {
 			container.getElement().html(`<pre class="code" id="code-${state.id}"></pre>`);
-			//container.tab.elements[0].title = state.fileName
+			container.setTitle(state.self.getShortFileName(state.filename))
+			state.self._containers[state.id] = container;
+			//container.tab.elements[0].title = state.filename
 			state.session.setEditor(container.getElement()[0]);
 		});
 		this._myLayout.init();
 
 	}
-
-	
 
 	appendSession(item: AppendSessionNotification) {
 		var id = item.id;
@@ -39,8 +39,7 @@ export default class Room {
 				content: [{
 					type: 'component',
 					componentName: "file",
-					title: filename.split(/\/|\\/).pop(),
-					componentState: { id: id, filename: filename, session: this._sessions[id]}
+					componentState: { id: id, filename: filename, session: this._sessions[id], self: this}
 				}]};
 		if (!this._myLayout.root.contentItems.length) {
 			this._myLayout.root.addChild(component);
@@ -54,6 +53,7 @@ export default class Room {
 		var id = item.id;
 		this._sessions[id].close();
 		delete this._sessions[id];
+		this._containers[id].close();
 	}
 
 	updateRoomStatus(item: UpdateBroadcastStatusNotification) {
@@ -78,8 +78,8 @@ export default class Room {
 			console.error(`Room doesn't contain session id: ${item.id}`);
 			return;
 		}
-
 		session.updateSessionInfo(item);
+		this._containers[item.id].setTitle(this.getShortFileName(item.filename));
 	}
 	
 	updateSessionContent(item: UpdateSessionContentRequest) {
@@ -89,6 +89,10 @@ export default class Room {
 	updateSessionCursor(item: UpdateSessionCursorRequest) {
 		this._sessions[item.id].updateCursor(item);
 		
+	}
+	
+	private getShortFileName(filename) {
+		return filename?filename.split(/\/|\\/).pop():"";
 	}
 	
 }
