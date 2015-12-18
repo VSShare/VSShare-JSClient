@@ -95,4 +95,7 @@ export default class Room {
 		return filename?filename.split(/\/|\\/).pop():"";
 	}
 	
+	getSessionCount(): number{
+		return Object.keys(this._sessions).length;
+	}
 }

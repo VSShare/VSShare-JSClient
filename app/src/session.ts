@@ -140,6 +140,7 @@ export default class Session {
 	}
 
 	updateCursor(item: UpdateSessionCursorRequest) {
+		
 	}
 
 	updateSessionInfo(item: UpdateSessionInfoRequest) {

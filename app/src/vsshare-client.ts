@@ -31,12 +31,12 @@ export class VSShareClient {
 
 	private _status: VSShareStatus = VSShareStatus.Disconnected;
 	private _connectionStatus: SignalRConnectionStatus = SignalRConnectionStatus.Disconnected;
-	
+
 	constructor(url: string, hubName: string) {
 		this._url = url;
 		this._hubName = hubName;
 		this._room = new Room();
-		window.addEventListener("resize", () => {this.refleshView(this._room)}, false);
+		window.addEventListener("resize", () => { this.refleshView(this._room) }, false);
 	}
 
 	startConnection(token: string) {
@@ -44,7 +44,7 @@ export class VSShareClient {
 
 		const self = this;
 		this._connection = $.hubConnection(this._url);
-		
+
 		this._connection.stateChanged((status) => {
 			self.changeStatus(<SignalRConnectionStatus>status.newState);
 		});
@@ -60,12 +60,13 @@ export class VSShareClient {
 		});
 		this._hub.on("AppendSession", (item) => {
 			self._room.appendSession(item);
-			this._hub.invoke("GetSessionContent", {id: item.id}).done((res)=>{
+			this._hub.invoke("GetSessionContent", { id: item.id }).done((res) => {
 				self._room.updateSessionContent(res);
 			})
 		});
 		this._hub.on("RemoveSession", (item) => {
 			self._room.removeSession(item);
+			self.switchOnline(self._room.getSessionCount() > 0);
 		});
 		this._hub.on("UpdateSessionContent", (item) => {
 			self._room.updateSessionContent(item);
@@ -73,7 +74,7 @@ export class VSShareClient {
 		this._hub.on("UpdateSessionCursor", (item) => {
 			self._room.updateSessionCursor(item);
 		});
-		
+
 		this._connection.start().done(() => {
 			// 認証を行う
 			console.log(`Connected to ${self._hubName} on ${self._url}.`);
@@ -95,10 +96,11 @@ export class VSShareClient {
 			if (response && response.success) {
 				// 認証成功
 				self._status = VSShareStatus.Authorized;
-				this._hub.invoke("GetSessionList").done((res:any[]) => {
+				this._hub.invoke("GetSessionList").done((res: any[]) => {
+					this.switchOnline(res.length > 0);
 					res.forEach((value, index, array) => {
 						self._room.appendSession(value);
-						this._hub.invoke("GetSessionContent", {id: value.id}).done((res)=>{
+						this._hub.invoke("GetSessionContent", { id: value.id }).done((res) => {
 							self._room.updateSessionContent(res);
 						})
 					});
@@ -132,8 +134,19 @@ export class VSShareClient {
 	dispose() {
 
 	}
-	
-	private refleshView(room){
+
+	private refleshView(room) {
 		room.updateViewSize();
+	}
+
+	private switchOnline(isOnline: boolean) {
+		var status = document.getElementById("broadcast-status");
+		if(isOnline) {
+			status.innerHTML = "ONLINE";
+			status.style.color = "red";
+		} else {
+			status.innerHTML = "OFFLINE";
+			status.style.color = "";
+		}
 	}
 }
