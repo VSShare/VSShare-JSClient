@@ -13,7 +13,8 @@
     "browserify": "*",
     "mocha": "*",
     "run-sequence": "^1.1.1",
-    "tsify": "^0.13.1"
+    "tsify": "^0.13.1",
+    "rimraf": "*"
   },
   "scripts": {
     "main": "gulp buildrun",

@@ -53,10 +53,10 @@
                     />
                     <ul class="nav navbar-nav navbar-right">
                         <li>
-                            <a href="/Manage" title="Manage">こんにちは、oboenikuiさん</a>
+                            <a href="/Manage" title="Manage">こんにちは、{ユーザー名}さん</a>
                         </li>
                         <li class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">oboenikui <span class="caret"></span></a>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">{ユーザー名} <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="/Manage/MyRooms">マイルーム</a></li>
                                 <li class="divider"></li>
@@ -177,8 +177,18 @@
             </div>
         </div>
     </footer>
-    <script src="../app/build/index.js" type="text/javascript"></script>
-    
+    <script src="../app/build/vsshare-client.js" type="text/javascript"></script>
+    <script>
+        $(function () {
+            var Url = "http://vssharestg.azurewebsites.net/signalr";
+            var HubName = "listen";
+            var Token = "7fb7d92e-ebd2-405c-ad9b-5a28a6be5eea";
+            var client = new VSShareClient(Url, HubName);
+            client.startConnection(Token);
+            // for debug
+            window["_client"] = client;
+        });
+    </script>
 
 </body>
 

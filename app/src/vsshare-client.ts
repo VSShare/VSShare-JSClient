@@ -6,6 +6,10 @@
 
 import Room from './room';
 
+$(() => {
+	window["VSShareClient"] = VSShareClient;
+});
+
 enum SignalRConnectionStatus {
 	Connecting = 0,
 	Connected = 1,
@@ -37,6 +41,7 @@ export class VSShareClient {
 		this._hubName = hubName;
 		this._room = new Room();
 		window.addEventListener("resize", () => { this.refleshView(this._room) }, false);
+        
 	}
 
 	startConnection(token: string) {

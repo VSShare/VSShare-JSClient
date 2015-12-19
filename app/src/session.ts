@@ -181,9 +181,13 @@ export default class Session {
 		span.style.visibility = "hidden";
 		document.body.appendChild(span);
 		span.className = "ace_editor";
-		span.innerHTML = this._editor.session.getLine(self._cursorPos.line).substring(0, self._cursorPos.pos).replace(/ /g, "A").replace(/\t/g, "AAAA");;
-		var left = config.padding + Math.round(span.offsetWidth / config.characterWidth) * config.characterWidth;
-		
+        var leftCount = 0;
+        for(var i=0; i<self._cursorPos.pos; i++) {
+    		span.innerHTML = this._editor.session.getLine(self._cursorPos.line)[i].replace(/ /g, "A").replace(/\t/g, "AAAA".substring(0, 4 - leftCount % 4));
+            leftCount += Math.round(span.offsetWidth / config.characterWidth);
+        }
+        var left = config.padding + leftCount * config.characterWidth;
+		document.body.removeChild(span);
 		var top = config.lineHeight * self._cursorPos.line;
 		var width = config.characterWidth;
 		var height = config.lineHeight;
@@ -217,13 +221,18 @@ export default class Session {
 			span.style.visibility = "hidden";
 			document.body.appendChild(span);
 			span.className = "ace_editor";
-			span.innerHTML = this._editor.session.getLine(pos1.line).substring(0, pos1.pos).replace(/ /g, "A").replace(/\t/g, "AAAA");;
-			console.log(span.offsetWidth);
-			var left = Math.round(span.offsetWidth / config.characterWidth) * config.characterWidth;
-			
-			span.innerHTML = this._editor.session.getLine(pos2.line).substring(0, pos2.pos).replace(/ /g, "A").replace(/\t/g, "AAAA");;
-			var right = Math.round(span.offsetWidth / config.characterWidth) * config.characterWidth;
-			
+            var leftCount = 0;
+            for(var i=0; i<pos1.pos; i++) {
+                span.innerHTML = this._editor.session.getLine(pos1.line)[i].replace(/ /g, "A").replace(/\t/g, "AAAA".substring(0, 4 - leftCount % 4));
+                leftCount += Math.round(span.offsetWidth / config.characterWidth);
+            }
+			var left = leftCount * config.characterWidth;
+            var rightCount = 0;
+            for(var i=0; i<pos2.pos; i++) {
+                span.innerHTML = this._editor.session.getLine(pos2.line)[i].replace(/ /g, "A").replace(/\t/g, "AAAA".substring(0, 4 - rightCount % 4));
+                rightCount += Math.round(span.offsetWidth / config.characterWidth);
+            }
+			var right = rightCount * config.characterWidth;
 			document.body.removeChild(span);
 			
 			var top1 = config.lineHeight * pos1.line;
