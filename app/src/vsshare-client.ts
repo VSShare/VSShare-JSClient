@@ -100,8 +100,11 @@ export class VSShareClient {
 					this.switchOnline(res.length > 0);
 					res.forEach((value, index, array) => {
 						self._room.appendSession(value);
-						this._hub.invoke("GetSessionContent", { id: value.id }).done((res) => {
+						this._hub.invoke("GetSessionContent", { id: value.id }).done(res => {
 							self._room.updateSessionContent(res);
+						})
+						this._hub.invoke("GetSessionCursor", {id: value.id}).done(res => {
+							self._room.updateSessionCursor(res);
 						})
 					});
 				});

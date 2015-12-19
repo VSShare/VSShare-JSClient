@@ -5,21 +5,28 @@
 
 namespace StyleClass {
 	export const Modified = "modified";
+	export const GutterActiveLine = "ace_gutter-real-active-line";
+	export const Cursor = "ace_real-cursor";
+	export const ActiveLine = "ace_real-active-line";
+	export const Selection = "ace_real-selection";
 }
 
 export default class Session {
 
 	_id: string;
 	_filename: string;
-	_type: ContentType;
+	_type: string;
 	_owner: string;
 	_doc: AceAjax.Document;
 	_editor: AceAjax.Editor;
 	_noLine: boolean;
 	_isModified: boolean[] = [];
 	Range = ace.require('./range').Range;
-	
-	constructor(id: string, filename: string, type: ContentType, owner: string) {
+	_cursorPos: CursorPosition;
+	_selectionStartPos: CursorPosition;
+
+
+	constructor(id: string, filename: string, type: string, owner: string) {
 		this._id = id;
 		this._filename = filename;
 		this._type = type;
@@ -36,6 +43,13 @@ export default class Session {
 		this._editor.setReadOnly(true);
 		this._editor.setOption("maxLines", (element.clientHeight) / this._editor.renderer.layerConfig.lineHeight);
 		this._doc = this._editor.session.doc;
+		var cursorMarker = {}, lineMarker = {};
+		let self = this;
+		cursorMarker["update"] = (html, marker, session, config) => { self.updateCursorMarker(html, marker, session, config, self) };
+		lineMarker["update"] = (html, marker, session, config) => { self.updateLineMarker(html, marker, session, config, self) };
+		this._editor.session.addDynamicMarker(cursorMarker, true);
+		this._editor.session.addDynamicMarker(lineMarker, false);
+
 	}
 
 	replaceLines(lines: Line[], row: number, lineLength: number) {
@@ -43,9 +57,9 @@ export default class Session {
 		var linesStr = [];
 		this._isModified.splice(row, lineLength);
 		var currentRow = row;
-		for(var i=0; i<lines.length; i++){
+		for (var i = 0; i < lines.length; i++) {
 			var count = this._doc.$split(lines[i].text).length;
-			for(var j=0; j<count; j++){
+			for (var j = 0; j < count; j++) {
 				this._isModified.splice(currentRow + j, 0, lines[i].modified);
 			}
 			currentRow += count;
@@ -58,10 +72,10 @@ export default class Session {
     insertLines(lines: Line[], row: number) {
 		var textlines = [];
 		var currentRow = row;
-		for(var i=0; i<lines.length; i++) {
+		for (var i = 0; i < lines.length; i++) {
 			var count = this._doc.$split(lines[i].text).length;
 			textlines.concat(this._doc.$split(lines[i].text));
-			for(var j=0; j<count; j++){
+			for (var j = 0; j < count; j++) {
 				this._isModified.splice(currentRow + j, 0, lines[i].modified);
 			}
 			currentRow += count;
@@ -76,20 +90,20 @@ export default class Session {
         this._doc.removeFullLines(startRow, startRow + lineLength - 1);
     }
 
-	removeAllModifiedMarkers(){
+	removeAllModifiedMarkers() {
 		var txtlen = this._doc.getLength();
 		this._isModified.splice(txtlen, this._isModified.length - txtlen);
-		for(var i=0; i<this._isModified.length; i++) {
+		for (var i = 0; i < this._isModified.length; i++) {
 			this._isModified[i] = false;
 		}
 		this.updateModifiedLines();
 	}
-	
-	updateModifiedLines(){
-		
-		for(var i=0; i<this._isModified.length; i++) {
-			if(this._isModified[i]) {
-				if(!this._editor.session.$decorations[i] || !this._editor.session.$decorations[i].match("^"+StyleClass.Modified+"| "+StyleClass.Modified+" |"+StyleClass.Modified+"$")){
+
+	updateModifiedLines() {
+
+		for (var i = 0; i < this._isModified.length; i++) {
+			if (this._isModified[i]) {
+				if (!this._editor.session.$decorations[i] || !this._editor.session.$decorations[i].match("^" + StyleClass.Modified + "| " + StyleClass.Modified + " |" + StyleClass.Modified + "$")) {
 					this._editor.session.addGutterDecoration(i, StyleClass.Modified);
 				}
 			} else {
@@ -97,7 +111,7 @@ export default class Session {
 			}
 		}
 	}
-	
+
 	dispose() {
 		// 終了処理
 		
@@ -109,11 +123,11 @@ export default class Session {
 		})
 		item.data.forEach(d => {
 			var pos = d.pos;
-			switch(d.type){
+			switch (d.type) {
 				case UpdateType.Append:
 					pos = this._doc.getLength();
 				case UpdateType.Insert:
-					if(this._noLine) {
+					if (this._noLine) {
 						this.replaceLines(d.data, 0, 1);
 						this._noLine = false;
 					} else {
@@ -134,13 +148,83 @@ export default class Session {
 				case UpdateType.RemoveMarker:
 					this.removeAllModifiedMarkers();
 					break;
-					
+
 			}
 		});
 	}
 
 	updateCursor(item: UpdateSessionCursorRequest) {
-		
+		if (!this._cursorPos) {
+			this._editor.session.addGutterDecoration(item.active.line, StyleClass.GutterActiveLine);
+		} else if (this._cursorPos.line != item.active.line) {
+			this._editor.session.removeGutterDecoration(this._cursorPos.line, StyleClass.GutterActiveLine);
+			this._editor.session.addGutterDecoration(item.active.line, StyleClass.GutterActiveLine);
+		}
+		this._cursorPos = item.active;
+		switch (item.type) {
+			case CursorType.Point:
+				this._selectionStartPos = undefined;
+				break;
+			case CursorType.Select:
+				this._selectionStartPos = item.anchor;
+				break;
+		}
+		this._editor.renderer.updateFrontMarkers();
+		this._editor.renderer.updateBackMarkers();
+	}
+
+	updateCursorMarker(html: any[], marker: any, session: AceAjax.IEditSession, config: any, self: Session) {
+		if (!self._cursorPos) {
+			return;
+		}
+		var left = config.padding + config.characterWidth * self._cursorPos.pos;
+		var top = config.lineHeight * self._cursorPos.line;
+		var width = config.characterWidth;
+		var height = config.lineHeight;
+		html.push(`<div class="${StyleClass.Cursor}" style="left: ${left}px; top: ${top}px; widht: ${width}px; height: ${height}px"></div>`);
+	}
+
+	updateLineMarker(html: any[], marker: any, session: AceAjax.IEditSession, config: any, self: Session) {
+		if (!self._cursorPos) {
+			return;
+		}
+		if (self._selectionStartPos) {
+			var pos1, pos2;
+			if (self._cursorPos.line == self._selectionStartPos.line) {
+				if (self._cursorPos.pos < self._selectionStartPos.pos) {
+					pos1 = self._cursorPos;
+					pos2 = self._selectionStartPos;
+				} else {
+					pos1 = self._selectionStartPos;
+					pos2 = self._cursorPos;
+				}
+				
+			} else if (self._cursorPos.line < self._selectionStartPos.line) {
+				pos1 = self._cursorPos;
+				pos2 = self._selectionStartPos;
+			} else {
+				pos1 = self._selectionStartPos;
+				pos2 = self._cursorPos;
+			}
+
+			var left = config.padding + config.characterWidth * pos1.pos;
+			var right = config.padding + config.characterWidth * pos2.pos;
+			var top1 = config.lineHeight * pos1.line;
+			var top2 = config.lineHeight * pos2.line;
+			if (pos1.line == pos2.line) {
+				html.push(
+					`<div class="${StyleClass.Selection}" style="left: ${left}px; width: ${right-left}px; top: ${top1}px; height: ${config.lineHeight}px"></div>`);
+			} else {
+				html.push(
+					`<div class="${StyleClass.Selection}" style="left: ${left}px; right: ${config.padding}px; top: ${top1}px; height: ${config.lineHeight}px"></div>
+					<div class="${StyleClass.Selection}" style="left: ${config.padding}px; right: ${config.padding}px; top: ${top1 + config.lineHeight}px; height: ${config.lineHeight * (pos2.line - pos1.line - 1) }px"></div>
+					<div class="${StyleClass.Selection}" style="left: ${config.padding}px; width: ${right}px; top: ${top2}px; height: ${config.lineHeight}px"></div>`);
+			}
+		} else {
+			var top = config.lineHeight * self._cursorPos.line;
+			var height = config.lineHeight;
+			html.push(`<div class="${StyleClass.ActiveLine}" style="left: 0; right: 0; top: ${top}px; height: ${height}px"></div>`);
+		}
 	}
 
 	updateSessionInfo(item: UpdateSessionInfoRequest) {
@@ -148,32 +232,26 @@ export default class Session {
 		this._type = item.type;
 		this.setEditorMode(item.type);
 	}
-	
-	setEditorMode(type: ContentType){
+
+	setEditorMode(type: string) {
 		var mode: string;
-		switch(type){
-			case ContentType.CSharp:
+		switch (type) {
+			case "code:csharp":
 				mode = "ace/mode/csharp";
 				break;
-			case ContentType.JSON:
+			case "code:json":
 				mode = "ace/mode/json";
 				break;
-			case ContentType.VB_NET:
-				mode = "ace/mode/vbscript";
-				break;
-			case ContentType.XML:
-				mode = "ace/mode/xml";
-				break;
-			case ContentType.PlainText:
 			default:
 				mode = "ace/mode/plain_text";
 				break;
 		}
+		console.log(type);
 		this._editor.session.setMode(mode);
 	}
-	
+
 	close() {
-		
+
 	}
 
 	hasNoLine(): boolean {
