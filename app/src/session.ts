@@ -177,7 +177,13 @@ export default class Session {
 		if (!self._cursorPos) {
 			return;
 		}
-		var left = config.padding + config.characterWidth * self._cursorPos.pos;
+		var span = document.createElement("span");
+		span.style.visibility = "hidden";
+		document.body.appendChild(span);
+		span.className = "ace_editor";
+		span.innerHTML = this._editor.session.getLine(self._cursorPos.line).substring(0, self._cursorPos.pos).replace(/ /g, "A").replace(/\t/g, "AAAA");;
+		var left = config.padding + Math.round(span.offsetWidth / config.characterWidth) * config.characterWidth;
+		
 		var top = config.lineHeight * self._cursorPos.line;
 		var width = config.characterWidth;
 		var height = config.lineHeight;
@@ -206,17 +212,28 @@ export default class Session {
 				pos1 = self._selectionStartPos;
 				pos2 = self._cursorPos;
 			}
-
-			var left = config.padding + config.characterWidth * pos1.pos;
-			var right = config.padding + config.characterWidth * pos2.pos;
+			
+			var span = document.createElement("span");
+			span.style.visibility = "hidden";
+			document.body.appendChild(span);
+			span.className = "ace_editor";
+			span.innerHTML = this._editor.session.getLine(pos1.line).substring(0, pos1.pos).replace(/ /g, "A").replace(/\t/g, "AAAA");;
+			console.log(span.offsetWidth);
+			var left = Math.round(span.offsetWidth / config.characterWidth) * config.characterWidth;
+			
+			span.innerHTML = this._editor.session.getLine(pos2.line).substring(0, pos2.pos).replace(/ /g, "A").replace(/\t/g, "AAAA");;
+			var right = Math.round(span.offsetWidth / config.characterWidth) * config.characterWidth;
+			
+			document.body.removeChild(span);
+			
 			var top1 = config.lineHeight * pos1.line;
 			var top2 = config.lineHeight * pos2.line;
 			if (pos1.line == pos2.line) {
 				html.push(
-					`<div class="${StyleClass.Selection}" style="left: ${left}px; width: ${right-left}px; top: ${top1}px; height: ${config.lineHeight}px"></div>`);
+					`<div class="${StyleClass.Selection}" style="left: ${config.padding+left}px; width: ${right-left}px; top: ${top1}px; height: ${config.lineHeight}px"></div>`);
 			} else {
 				html.push(
-					`<div class="${StyleClass.Selection}" style="left: ${left}px; right: ${config.padding}px; top: ${top1}px; height: ${config.lineHeight}px"></div>
+					`<div class="${StyleClass.Selection}" style="left: ${config.padding+left}px; right: ${config.padding}px; top: ${top1}px; height: ${config.lineHeight}px"></div>
 					<div class="${StyleClass.Selection}" style="left: ${config.padding}px; right: ${config.padding}px; top: ${top1 + config.lineHeight}px; height: ${config.lineHeight * (pos2.line - pos1.line - 1) }px"></div>
 					<div class="${StyleClass.Selection}" style="left: ${config.padding}px; width: ${right}px; top: ${top2}px; height: ${config.lineHeight}px"></div>`);
 			}
