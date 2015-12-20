@@ -36,9 +36,6 @@ export default class Session {
 
 	setEditor(element: HTMLElement) {
 		this._editor = ace.edit(<HTMLElement>element.querySelector("#code-" + this._id));
-		// オンオフで切り替える
-		//this._editor["_emit"] = (name:string, e: MouseEvent) => {};
-		//this._editor["$callKeyboardHandlers"] = (hashId:number, keyString: string, keyCode: number, e: KeyboardEvent) => {};
 		this.setEditorMode(this._type);
 		this._editor.setReadOnly(true);
 		this._editor.setOption("maxLines", (element.clientHeight) / this._editor.renderer.layerConfig.lineHeight);
