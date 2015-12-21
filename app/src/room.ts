@@ -55,6 +55,7 @@ export default class Room {
 		this._sessions[id].close();
 		delete this._sessions[id];
 		this._containers[id].close();
+        delete this._containers[id];
 	}
 
 	updateRoomStatus(item: UpdateBroadcastStatusNotification) {
