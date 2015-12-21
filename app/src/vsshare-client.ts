@@ -41,7 +41,7 @@ export class VSShareClient {
 		this._hubName = hubName;
 		this._room = new Room();
 		window.addEventListener("resize", () => { this.refleshView(this._room) }, false);
-        
+
 	}
 
 	startConnection(token: string) {
@@ -101,6 +101,12 @@ export class VSShareClient {
 			if (response && response.success) {
 				// 認証成功
 				self._status = VSShareStatus.Authorized;
+				this._hub.invoke("GetRoomStatus").done((res) => {
+					if (res != null) {
+						self._room.updateRoomStatus(res);
+					}
+				});
+
 				this._hub.invoke("GetSessionList").done((res: any[]) => {
 					this.switchOnline(res.length > 0);
 					res.forEach((value, index, array) => {
@@ -108,7 +114,7 @@ export class VSShareClient {
 						this._hub.invoke("GetSessionContent", { id: value.id }).done(res => {
 							self._room.updateSessionContent(res);
 						})
-						this._hub.invoke("GetSessionCursor", {id: value.id}).done(res => {
+						this._hub.invoke("GetSessionCursor", { id: value.id }).done(res => {
 							self._room.updateSessionCursor(res);
 						})
 					});
@@ -149,7 +155,9 @@ export class VSShareClient {
 
 	private switchOnline(isOnline: boolean) {
 		var status = document.getElementById("broadcast-status");
-		if(isOnline) {
+		if (status == null) return;
+		
+		if (isOnline) {
 			status.innerHTML = "ONLINE";
 			status.style.color = "red";
 		} else {
