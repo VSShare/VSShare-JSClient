@@ -13,7 +13,7 @@ export default class Room {
 	private _containers: { [id: string]: any; } = {};
 
 	constructor() {
-		this._myLayout = new GoldenLayout({ content: [] }, $('#golden-layout'));
+		this._myLayout = new GoldenLayout({ content: [], settings: {showPopoutIcon: false}}, $('#golden-layout'));
 		this._myLayout.registerComponent('file', function(container, state) {
 			container.getElement().html(`<pre class="code" id="code-${state.id}"></pre>`);
 			container.setTitle(state.self.getShortFileName(state.filename))
@@ -39,6 +39,7 @@ export default class Room {
 				content: [{
 					type: 'component',
 					componentName: "file",
+                    isClosable: false,
 					componentState: { id: id, filename: filename, session: this._sessions[id], self: this}
 				}]};
 		if (!this._myLayout.root.contentItems.length) {
