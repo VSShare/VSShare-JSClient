@@ -169,6 +169,20 @@ export default class Session {
 		this._editor.renderer.updateFrontMarkers();
 		this._editor.renderer.updateBackMarkers();
 	}
+    
+    scrollWithCursor(activeCursorPosition: CursorPosition){
+        var range = this._editor.getSelectionRange();
+        if(range.start.row != range.end.row && range.start.column != range.end.column) {
+            return;
+        }
+        var maxLines = this._editor.getOption("maxLines");
+        var currentRow = this._editor.getFirstVisibleRow();
+        if(activeCursorPosition.line < currentRow) {
+            
+        } else if(activeCursorPosition.line > currentRow + maxLines) {
+            
+        }
+    }
 
 	updateCursorMarker(html: any[], marker: any, session: AceAjax.IEditSession, config: any, self: Session) {
 		if (!self._cursorPos) {
