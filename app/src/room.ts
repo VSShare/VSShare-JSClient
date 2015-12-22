@@ -13,10 +13,11 @@ export default class Room {
 	private _containers: { [id: string]: any; } = {};
 
 	constructor() {
-		this._myLayout = new GoldenLayout({ content: [], settings: {showPopoutIcon: false}}, $('#golden-layout'));
+		this._myLayout = new GoldenLayout({ content: [{
+				type: 'row',
+				content: []}], settings: {showPopoutIcon: false}}, $('#golden-layout'));
 		this._myLayout.registerComponent('file', function(container, state) {
 			container.getElement().html(`<pre class="code" id="code-${state.id}"></pre>`);
-			container.setTitle(state.self.getShortFileName(state.filename))
 			state.self._containers[state.id] = container;
 			//container.tab.elements[0].title = state.filename
 			state.session.setEditor(container.getElement()[0]);
@@ -35,19 +36,12 @@ export default class Room {
 		}
 		this._sessions[id] = new Session(id, filename, type, owner);
 		var component = {
-				type: 'row',
-				content: [{
-					type: 'component',
-					componentName: "file",
-                    isClosable: false,
-					componentState: { id: id, filename: filename, session: this._sessions[id], self: this}
-				}]};
-		if (!this._myLayout.root.contentItems.length) {
-			this._myLayout.root.addChild(component);
-		} else {
-			this._myLayout.root.contentItems[0].addChild(component);
-		}
-		
+            type: 'component',
+            componentName: "file",
+            title: this.getShortFileName(filename),
+            componentState: { id: id, filename: filename, session: this._sessions[id], self: this}
+        };		
+        this._myLayout.root.contentItems[0].addChild(component);
 	}
 
 	removeSession(item: RemoveSessionRequest) {
