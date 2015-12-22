@@ -10,7 +10,7 @@ var paths = {
     dest : 'app/build/tmp'
   },
   nodescripts: {
-    src : ['app/build/tmp/*.js'],
+    src : ['app/build/tmp/vsshare-client.js'],
     dest: 'app/build'
   }
 };
@@ -29,7 +29,9 @@ gulp.task('watchrun', function () {
 
 // ** Compilation ** //
 
-gulp.task('build', ['compile:typescript']);
+gulp.task('build', function(callback){
+    runseq('compile:typescript', 'browserify', callback);
+});
 
 var exec_tsc = function () {
   return gulp
@@ -49,12 +51,12 @@ var exec_clean = function (cb) {
 
 gulp.task('clean', exec_clean);
 
-
 var exec_browserify = function(){
   return gulp
   .src(paths.nodescripts.src)
   .pipe(browserify())
-  .pipe(gulp.dest(paths.nodescripts.dest));
+  .pipe(gulp.dest(paths.nodescripts.dest))
+  .pipe(gulp.dest("D:/Users/oboenikui/Documents/git/web_debugger/js"));
 };
 
 gulp.task('browserify', exec_browserify);

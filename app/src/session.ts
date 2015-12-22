@@ -3,6 +3,7 @@
 
 'use strict';
 
+import FileType from './filetype';
 namespace StyleClass {
 	export const Modified = "modified";
 	export const GutterActiveLine = "ace_gutter-real-active-line";
@@ -185,9 +186,11 @@ export default class Session {
     }
 
 	updateCursorMarker(html: any[], marker: any, session: AceAjax.IEditSession, config: any, self: Session) {
-		if (!self._cursorPos) {
+		console.log("updating");
+        if (!self._cursorPos || (self._editor.getFirstVisibleRow() > self._cursorPos.line || self._editor.getLastVisibleRow() < self._cursorPos.line)) {
 			return;
-		}
+        }
+        
 		var span = document.createElement("span");
 		span.style.visibility = "hidden";
 		document.body.appendChild(span);
@@ -199,7 +202,7 @@ export default class Session {
         }
         var left = config.padding + leftCount * config.characterWidth;
 		document.body.removeChild(span);
-		var top = config.lineHeight * self._cursorPos.line;
+		var top = config.lineHeight * (self._cursorPos.line - self._editor.getFirstVisibleRow());
 		var width = config.characterWidth;
 		var height = config.lineHeight;
 		html.push(`<div class="${StyleClass.Cursor}" style="left: ${left}px; top: ${top}px; widht: ${width}px; height: ${height}px"></div>`);
@@ -228,6 +231,10 @@ export default class Session {
 				pos2 = self._cursorPos;
 			}
 			
+            if(self._editor.getLastVisibleRow() < pos1.line || self._editor.getFirstVisibleRow() > pos2.line) {
+                return;
+            }
+            
 			var span = document.createElement("span");
 			span.style.visibility = "hidden";
 			document.body.appendChild(span);
@@ -246,8 +253,9 @@ export default class Session {
 			var right = rightCount * config.characterWidth;
 			document.body.removeChild(span);
 			
-			var top1 = config.lineHeight * pos1.line;
-			var top2 = config.lineHeight * pos2.line;
+			var top1 = config.lineHeight * (pos1.line - self._editor.getFirstVisibleRow());
+			var top2 = config.lineHeight * (pos2.line - self._editor.getFirstVisibleRow());
+            
 			if (pos1.line == pos2.line) {
 				html.push(
 					`<div class="${StyleClass.Selection}" style="left: ${config.padding+left}px; width: ${right-left}px; top: ${top1}px; height: ${config.lineHeight}px"></div>`);
@@ -258,7 +266,7 @@ export default class Session {
 					<div class="${StyleClass.Selection}" style="left: ${config.padding}px; width: ${right}px; top: ${top2}px; height: ${config.lineHeight}px"></div>`);
 			}
 		} else {
-			var top = config.lineHeight * self._cursorPos.line;
+			var top = config.lineHeight * (self._cursorPos.line - self._editor.getFirstVisibleRow());
 			var height = config.lineHeight;
 			html.push(`<div class="${StyleClass.ActiveLine}" style="left: 0; right: 0; top: ${top}px; height: ${height}px"></div>`);
 		}
@@ -271,20 +279,8 @@ export default class Session {
 	}
 
 	setEditorMode(type: string) {
-		var mode: string;
-		switch (type) {
-			case "code:csharp":
-				mode = "ace/mode/csharp";
-				break;
-			case "code:json":
-				mode = "ace/mode/json";
-				break;
-			default:
-				mode = "ace/mode/plain_text";
-				break;
-		}
-		console.log(type);
-		this._editor.session.setMode(mode);
+		var mode = FileType.Types[type] || "ace/mode/plain_text";
+        this._editor.session.setMode(mode);
 	}
 
 	close() {

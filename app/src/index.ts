@@ -6,7 +6,7 @@ $(() => {
 	const Url: string = "http://vssharestg.azurewebsites.net/signalr";
 	const HubName: string = "listen";
 	
-	const Token: string = "5a5f9efb-2776-47dc-af59-322f3705c921";
+	const Token: string = "xxx";
 	
 	var client = new vsshare.VSShareClient(Url, HubName);
 	client.startConnection(Token);
